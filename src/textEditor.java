@@ -12,7 +12,7 @@ public class textEditor {
 		
 	private static graphicComponents gComponents = new graphicComponents(); 
 	
-	public static Component itialilizingComponents() {
+	public static Component initializingComponents() {
 		
 		gComponents.newPanel();
 		gComponents.newMenuBar();
@@ -311,7 +311,7 @@ public class textEditor {
 	public static void main(String []args) {
 		
 		gComponents.newFrame(1000, 580, "BRAND NEW REVOLUTIONARY TEXT EDITOR", false, "C:\\Users\\CLIENTE\\Downloads\\wordPad.png");
-		gComponents.getFrame().getContentPane().add(itialilizingComponents());
+		gComponents.getFrame().getContentPane().add(initializingComponents());
 		
 	}
 }
