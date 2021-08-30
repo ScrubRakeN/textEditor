@@ -32,12 +32,13 @@ public class graphicComponents implements LayoutManager{
 	
 	//Instanciating Components
 	
-	public graphicComponents newFrame(int width, int height, String title, boolean resizable, String url) {
+	public graphicComponents newFrame(int width, int height, String title, boolean resizable, String url, Component components) {
 		
 		frame = new JFrame();
 		frame.setTitle(title);
 		frame.setIconImage(newImage(url).getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(components);
 		frame.setSize(width, height);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(resizable);
@@ -134,12 +135,11 @@ public class graphicComponents implements LayoutManager{
 		
 	}
 	
-	public graphicComponents newMenuBar() {
+	public JMenuBar newMenuBar() {
 		
 		menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
 		
-		return this;
+		return menuBar;
 	}
 	
 	public JMenu newMenu(String menuCaption) {

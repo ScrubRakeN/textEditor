@@ -19,10 +19,11 @@ public class textEditor {
 		
 		gComponents.getMenuBar().add(gComponents.newMenu("File"));
 		
-		gComponents.newFileDialog("File Manager", FileDialog.SAVE);
 		gComponents.getMenu().add(gComponents.newMenuItem("Save", KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		gComponents.getMenuItem().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				gComponents.newFileDialog("Save File", FileDialog.SAVE);
 				
 				try {
 					
@@ -48,10 +49,11 @@ public class textEditor {
 		});
 		
 		
-		gComponents.newFileDialog("File Manager", FileDialog.LOAD);
 		gComponents.getMenu().add(gComponents.newMenuItem("Open", KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		gComponents.getMenuItem().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				gComponents.newFileDialog("Load File", FileDialog.LOAD);
 				
 				try {
 					gComponents.getFileDialog().setVisible(true);
@@ -316,8 +318,8 @@ public class textEditor {
 	
 	public static void main(String []args) {
 		
-		gComponents.newFrame(950, 580, "BRAND NEW REVOLUTIONARY TEXT EDITOR", false, "C:\\Users\\CLIENTE\\Downloads\\wordPad.png");
-		gComponents.getFrame().getContentPane().add(initializingComponents());
+		gComponents.newFrame(950, 580, "BRAND NEW REVOLUTIONARY TEXT EDITOR", false, "C:\\Users\\CLIENTE\\Downloads\\wordPad.png", initializingComponents());
+		gComponents.getFrame().setJMenuBar(gComponents.getMenuBar());
 		
 	}
 }
