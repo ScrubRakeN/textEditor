@@ -19,7 +19,7 @@ public class textEditor {
 		
 		gComponents.getMenuBar().add(gComponents.newMenu("File"));
 		
-		gComponents.newFileDialog("Save archive", FileDialog.SAVE);
+		gComponents.newFileDialog("File Manager", FileDialog.SAVE);
 		gComponents.getMenu().add(gComponents.newMenuItem("Save", KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		gComponents.getMenuItem().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -48,8 +48,8 @@ public class textEditor {
 		});
 		
 		
-		gComponents.newFileDialog("Load archive", FileDialog.LOAD);
-		gComponents.getMenu().add(gComponents.newMenuItem("Open", KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		gComponents.newFileDialog("File Manager", FileDialog.LOAD);
+		gComponents.getMenu().add(gComponents.newMenuItem("Open", KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		gComponents.getMenuItem().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -89,6 +89,8 @@ public class textEditor {
 		gComponents.getPane().add(gComponents.newTextArea(10, 10, 700, 500));
 		
 		
+		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+		
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		String[] fonts = ge.getAvailableFontFamilyNames();
 		
@@ -97,7 +99,7 @@ public class textEditor {
 		gComponents.getSpinner().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				
-				gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()));
+				gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], gComponents.getTextArea().getFont().getStyle(), (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 				
 			}
 			
@@ -109,7 +111,7 @@ public class textEditor {
 		gComponents.getComboBox().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()));
+				gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], gComponents.getTextArea().getFont().getStyle(), (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 				
 			}
 		});
@@ -120,15 +122,15 @@ public class textEditor {
 		gComponents.getButton().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 			
-				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.BOLD, (int) gComponents.getSpinner().getValue());
+				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.BOLD, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes);
 				
 				if(gComponents.getTextArea().getFont().equals(font)) {
 					
-					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()));
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 					
 				}else {
 					
-					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.BOLD, (int) gComponents.getSpinner().getValue()));
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.BOLD, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 					
 				}
 				
@@ -142,41 +144,45 @@ public class textEditor {
 		gComponents.getButton().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 					
-				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.ITALIC, (int) gComponents.getSpinner().getValue());
+				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.ITALIC, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes);
 				
 				if(gComponents.getTextArea().getFont().equals(font)) {
 					
-					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()));
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
+					
 				}else {
 					
-					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.ITALIC, (int) gComponents.getSpinner().getValue()));
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.ITALIC, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 					
 				}
 					
 			}
 		});
-	
-		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
-		fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		
+		Map<TextAttribute, Integer> buttonFontAttributes = new HashMap<TextAttribute, Integer>();
+		
+		fontAttributes.put(TextAttribute.UNDERLINE, -1);
+		buttonFontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		gComponents.getPane().add(gComponents.newButton(855, 60, 45, 30, "U"));
-		gComponents.getButton().setFont(new Font("Arial", Font.BOLD, 14).deriveFont(fontAttributes));
+		gComponents.getButton().setFont(new Font("Arial", Font.BOLD, 14).deriveFont(buttonFontAttributes));
 		gComponents.getButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes);
+				fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+				Font font = new Font(fonts[gComponents.getComboBox().getSelectedIndex()], gComponents.getTextArea().getFont().getStyle(), (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes);
 				
 				if(gComponents.getTextArea().getFont().equals(font)) {
 					
 					fontAttributes.put(TextAttribute.UNDERLINE, -1);
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], gComponents.getTextArea().getFont().getStyle(), (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
+					
+				}else {
+					
+					fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], gComponents.getTextArea().getFont().getStyle(), (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
 					
 				}
 					
-					gComponents.getTextArea().setFont(new Font(fonts[gComponents.getComboBox().getSelectedIndex()], Font.PLAIN, (int) gComponents.getSpinner().getValue()).deriveFont(fontAttributes));
-					
-					fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-					
-				
 			}
 		});
 		
@@ -310,7 +316,7 @@ public class textEditor {
 	
 	public static void main(String []args) {
 		
-		gComponents.newFrame(1000, 580, "BRAND NEW REVOLUTIONARY TEXT EDITOR", false, "C:\\Users\\CLIENTE\\Downloads\\wordPad.png");
+		gComponents.newFrame(950, 580, "BRAND NEW REVOLUTIONARY TEXT EDITOR", false, "C:\\Users\\CLIENTE\\Downloads\\wordPad.png");
 		gComponents.getFrame().getContentPane().add(initializingComponents());
 		
 	}
